@@ -1,0 +1,9 @@
+CREATE TABLE IF NOT EXISTS Customers (
+CustomerID BIGINT,
+Name VARCHAR(50),
+MobNo BIGINT,
+Email VARCHAR(100),
+Address VARCHAR(150),
+Balance BIGINT,
+PRIMARY KEY (CustomerID,MobNo));
+
