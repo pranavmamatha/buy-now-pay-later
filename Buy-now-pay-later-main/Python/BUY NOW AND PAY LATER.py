@@ -13,7 +13,6 @@ print("""
 ▀▄▄▄▄▀▀▀▄▄▄▄▀▀▀▄▄▄▀▀▀▀▄▄▄▀▀▄▄▀▄▄▄▄▀▀▄▄▄▀▄▄▄▀▀▀▀▄▄▄▀▀▀▄▄▀▄▄▀▀▄▄▄▀▀▀▀▄▄▄▄▄▀▄▄▀▄▄▀▀▄▄▄▀▀▄▄▄▄▄▀▄▄▀▄▄▀
 """)
 
-
 import mysql.connector
 
 mydb = mysql.connector.connect(
@@ -24,6 +23,22 @@ mydb = mysql.connector.connect(
 )
 
 mycursor = mydb.cursor()
+
+# Create table if it doesn't exist
+def initialize_database():
+    create_table_sql = """
+    CREATE TABLE IF NOT EXISTS Customers (
+        CustomerID BIGINT,
+        Name VARCHAR(50),
+        MobNo BIGINT,
+        Email VARCHAR(100),
+        Address VARCHAR(150),
+        Balance BIGINT,
+        PRIMARY KEY (CustomerID,MobNo)
+    )"""
+    mycursor.execute(create_table_sql)
+    mydb.commit()
+    print("Database initialized successfully")
 
 def search(num):
     sql = f"SELECT * FROM customers WHERE MobNo = {num}"
@@ -176,6 +191,9 @@ def delcust():
             print('Invalid number')
 
 def main():
+    # Initialize database when program starts
+    initialize_database()
+    
     menu = """
     1. Lend
     2. Pay
